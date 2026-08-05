@@ -1,0 +1,54 @@
+`timescale 1ns/1ps
+
+module magnitude_comparator_tb;
+
+reg [3:0] A;
+reg [3:0] B;
+
+wire A_greater;
+wire A_less;
+wire A_equal;
+
+
+magnitude_comparator uut (
+    .A(A),
+    .B(B),
+    .A_greater(A_greater),
+    .A_less(A_less),
+    .A_equal(A_equal)
+);
+
+
+initial begin
+
+    $dumpfile("magnitude_comparator.vcd");
+    $dumpvars(0, magnitude_comparator_tb);
+
+    $display("Time\tA\tB\tGreater\tLess\tEqual");
+    $monitor("%0t\t%b\t%b\t%b\t%b\t%b",
+              $time,A,B,A_greater,A_less,A_equal);
+
+
+    // A > B
+    A = 4'b1010;
+    B = 4'b0101;
+    #10;
+
+
+    // A < B
+    A = 4'b0011;
+    B = 4'b1000;
+    #10;
+
+
+    // A = B
+    A = 4'b0110;
+    B = 4'b0110;
+    #10;
+
+
+    $finish;
+
+end
+
+endmodule
